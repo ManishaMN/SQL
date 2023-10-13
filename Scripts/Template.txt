@@ -1,0 +1,86 @@
+select
+from "Delays".main_airlines
+
+select
+from "Delays".main_airports
+
+select
+from "Delays".flights
+
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+--------------------
+--todate, floor
+ (floor((TO_DATE('01SEP2023', 'DDMONYYYY') - TO_DATE("Start_Date", 'DDMONYYYY'))/365.25) as YOS)
+
+---Extract year
+extract(YEAR from TO_DATE("Order_Date", 'DDMONYYYY')) >= 2010
+
+---Casting
+AVG(CAST(REPLACE(REPLACE("Total_Retail_Price",'$',''),',','')AS DOUBLE PRECISION)) as Mean
+
+---NULL
+AVG(CAST(NULLIF(departure_delay, '') AS INTEGER))
+
+
+---Create Table
+
+Create table "Jupiter".man as
+select "Employee_ID" as EmpM
+from "Jupiter".employee_payroll
+
+-----
+Insert 
+INSERT INTO people (id, name) VALUES (3000, 'Jack Smith');
+
+---------------------------
+Schema Airports Data sets
+Select *
+FROM "Delays".flights as f
+    INNER JOIN "Delays".main_airlines as air
+        ON f.airline =air.code
+    INNER JOIN "Delays".main_airports as apo
+        ON f.origin_airport = apo.acode
+    INNER JOIN "Delays".main_airports as apd
+        ON f.destination_airport = apd.acode;
+--------------------------------
+Music Datasets
+SELECT (*)
+FROM Track as t
+    INNER JOIN Album as al
+        ON al.AlbumId = t.AlbumId
+    INNER JOIN Artist as ar
+        ON al.ArtistId = ar.ArtistId
+    INNER JOIN Genre as g
+        ON t.GenreId = g.GenreId
+    INNER JOIN MediaType as mt
+        ON t.MediaTypeId = mt.MediaTypeId
+    INNER JOIN PlaylistTrack as pt
+        ON t.TrackId = pt.TrackId
+    INNER JOIN Playlist as p
+        ON pt.PlaylistId = p.PlaylistId
+    INNER JOIN InvoiceLine as il
+        ON t.TrackId = il.TrackId
+    INNER JOIN Invoice as i
+        ON il.InvoiceId = i.InvoiceId
+    INNER JOIN Customer as c
+        ON i.CustomerId = c.CustomerId;
+
+
+-------------------------------------
+Birth Date
+
+SELECT
+    strftime('%Y', 'now') - strftime('%Y', BirthDate) - (strftime('%m-%d', 'now')
+                                                             < strftime('%m-%d', BirthDate)) AS age,
+    FirstName
+FROM
+    Employee3;
+
+-------------------
+
+WHERE CAST(BirthDate AS DATE) < CAST('1960-01-01' AS DATE);

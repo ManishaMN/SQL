@@ -1,0 +1,80 @@
+class5_lab4
+
+------------Lab4---------
+----------class----------
+
+select movie_name
+from movies
+where movie_name like 'Da%'
+union
+select genre
+from genres
+where genre like 'B%';
+
+---lab4
+------------------------Lab4------------------------
+----anything vertical set operators-----
+------Union removes duplicates rows, while union all clause doesn't
+
+
+
+SELECT id, movie_name
+FROM movies
+EXCEPT
+SELECT movie_id as id, NULL as movie_name
+FROM people_movies
+ORDER BY id;
+--2
+SELECT id
+FROM movies
+EXCEPT
+SELECT movie_id as id
+FROM people_movies
+ORDER BY id;
+
+---
+select count (*)
+from (SELECT id
+FROM movies
+EXCEPT
+SELECT movie_id as id
+FROM people_movies
+ORDER BY id)
+
+
+
+----------------Lab4----------------------
+---------------class------------
+select "id", "Name"
+from "Jupiter".train_a
+where "Date" is not NULL
+EXCEPT
+select "id", "Name"
+from "Jupiter".train_b
+where "EDate" is  not NULL;
+
+------lab4----
+--cast salary, use inline, context text
+--- 3Q set operator
+---“Total Paid to All
+--Female Sales Representatives”, SUM(Salary), and the total number of rows
+--(as Total) using the COUNT(*) function.
+--95
+select 'Total Paid  Female Sales Representatives:', sum(CAST(REPLACE(REPLACE("Salary",'$',''),',','')AS DOUBLE PRECISION)),
+count(*) as Total
+from "Jupiter".salesstaff
+where "Gender" = 'F' and "Job_Title" like '%Rep%'
+UNION
+select 'Total Paid  male Sales Representatives:', sum(CAST(REPLACE(REPLACE("Salary",'$',''),',','')AS DOUBLE PRECISION)),
+count(*) as Total
+from "Jupiter".salesstaff
+where "Gender" = 'M' and "Job_Title" like '%Rep%';
+
+------- 20683
+
+select "Employee_ID"
+from "Jupiter".employee_phones
+EXCEPT
+select "Employee_ID"
+from "Jupiter".employee_addresses
+order by "Employee_ID"

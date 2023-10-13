@@ -1,0 +1,45 @@
+select movie_name, studio_name
+from movies m, studios s
+where m.studio_id = s.id
+
+select movie_name, genre, m.id , g.id
+from movies m, genres g
+where m.id = g.id
+
+-------------------Lab2 ----------------
+#2001: A Space Travesty
+select movie_name, name
+from movies m, people p
+where m.id = p.id
+order by name
+
+#Gothika (Widescreen) / Queen Of The Damned
+
+select name, movie_name
+from movies m, people p, people_movies pm
+where m.id = pm.movie_id and p.id = pm.person_id
+order by name
+
+# 39
+select name, count(movie_name) as movie_cnt
+from movies m, people p, people_movies pm
+where m.id = pm.movie_id and p.id = pm.person_id
+group by name
+order by movie_cnt desc
+
+----------------Lab3-----------
+# jOBS
+select movie_name
+from movies
+where genre_id IN
+      ( select id
+        from genres
+        where genre NOT IN ('Comedy','Comedy/Drama','Exercise','Fantasy','Foreign','Animation','
+Horror','TV Classics','VAR','War'))
+order by movie_name desc
+
+# Ann Worthington
+select name
+from people as p , people_movies as pm
+where p.id = pm.person_id and Movie_ID IN('20372','8727','31670')
+order by name

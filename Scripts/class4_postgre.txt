@@ -1,0 +1,111 @@
+select "Employee_ID", "Salary", "Salary"*0.1 as Bonus
+from "Jupiter".employee_payroll
+Where "Salary"*0.1 < 3000;
+
+CREATE TABLE "Jupiter".TEMP AS
+select "Employee_ID", "Salary", "Salary"*0.1 as Bonus
+from "Jupiter".employee_payroll;
+
+Select distinct "Gender" from "Jupiter".customer;
+
+select "Employee_ID", "Salary"
+from "Jupiter".employee_payroll
+order by "Employee_ID" desc;
+
+select "Employee_ID", "Salary"
+from "Jupiter".employee_payroll
+order by 2 desc;
+
+select "Employee_ID", "Salary", "Salary"*0.1 as Bonus
+from "Jupiter".employee_payroll
+order by 3 desc;
+
+/*---------------------------------lab 1 ------------------------*/
+
+select  distinct "City"
+from "Jupiter".employee_addresses
+order by "City" desc;
+
+select "Employee_ID", "Recipients", "Qtr1"
+from "Jupiter".employee_donations
+where "Qtr1" > 20.00
+order by "Qtr1" desc;
+
+select *
+from "Jupiter".employee_donations
+
+select employee_addresses."Employee_ID","Employee_Name","Gender"
+from "Jupiter".employee_addresses, "Jupiter".employees
+where employee_addresses."Employee_ID" = employees."Employee_ID"
+-------------------Lab 2----------------------------
+--45
+
+select "Employee_Name", floor((TO_DATE('01SEP2023', 'DDMONYYYY') -TO_DATE("Start_Date", 'DDMONYYYY'))/365.25) as YOS
+from "Jupiter".employee_addresses, "Jupiter".employee_information
+where employee_addresses."Employee_ID" = employee_information."Employee_ID" and floor((TO_DATE('01SEP2023', 'DDMONYYYY') -TO_DATE("Start_Date", 'DDMONYYYY'))/365.25) >30
+order by "Employee_Name"
+--4
+select product_dim."Product_ID", "Product_Name", sum("Quantity") as "Total Sold"
+from "Jupiter".product_dim, "Jupiter".order_fact
+where product_dim."Product_ID" = order_fact."Product_ID" and EXTRACT(YEAR FROM TO_DATE("Order_Date",'DDMONYYYY')) >= 2010
+group by product_dim."Product_ID","Product_Name"
+order by "Total Sold" desc ,"Product_Name"
+
+and "Product_Name" = 'Smasher Shorts'
+
+--------------------------------------------------------
+
+CREATE TABLE "Jupiter".Temp_Staff as
+select *, CAST(REPLACE(REPLACE("Salary",'$',''),',','')
+AS INTEGER) as Int_Salary from "Jupiter".staff;
+
+-- 8041.509433962264
+select avg("int_salary") as CompanyMeanSalary
+from "Jupiter".Temp_Staff;
+
+select "Job_Title", avg("int_salary") as "MeanSalary"
+from "Jupiter".Temp_Staff
+group by "Job_Title"
+having avg("int_salary") > 38041.509433962264
+
+
+select "Job_Title", avg("int_salary") as "MeanSalary"
+from "Jupiter".Temp_Staff
+group by "Job_Title"
+having avg("int_salary") > (select avg("int_salary") as CompanyMeanSalary
+from "Jupiter".Temp_Staff)
+
+---------------------------Lab3-------------------------------
+--137.82
+select avg(CAST(REPLACE(REPLACE("Total_Retail_Price",'$',''),',','')
+AS DOUBLE PRECISION))
+from "Jupiter".order_fact
+where "Order_Type" = 1
+
+    --218.14
+select "Customer_ID", AVG(CAST(REPLACE(REPLACE("Total_Retail_Price",'$',''),',','')
+AS DOUBLE PRECISION)) as MeanPrice
+from"Jupiter".order_fact
+where "Order_Type" = 1
+group by "Customer_ID"
+having AVG(CAST(REPLACE(REPLACE("Total_Retail_Price",'$',''),',','')
+AS DOUBLE PRECISION)) > 137.82
+Order by MeanPrice desc
+
+-----------
+--120136
+select "Employee_ID"
+from "Jupiter".employees
+where EXTRACT(MONTH FROM TO_DATE("Birth_Date", 'MM/DD/YYYY')) = 09
+order by "Employee_ID"
+
+---Hoppmann, John
+select "Employee_ID", "Employee_Name"
+from "Jupiter".employee_addresses
+where "Employee_ID" IN (select "Employee_ID"
+from "Jupiter".employees
+where EXTRACT(MONTH FROM TO_DATE("Birth_Date", 'MM/DD/YYYY')) = 09
+order by "Employee_ID")
+order by "Employee_Name"
+
+

@@ -1,0 +1,21 @@
+Download files from Moodle
+
+New Project
+
+SQLite
+-------------
+
+Import Exercise.sqlite database. Try this query:
+
+select * from countries;
+
+Postgres
+-------------
+
+Install postgres before: https://www.postgresql.org/download/
+
+Open Jupiter file on Notepad (or something similar) 
+
+Takes 10-20 minutes to run. Once it finishes, try this query:
+
+select * from "Jupiter".employee_payroll;

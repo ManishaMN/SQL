@@ -1,0 +1,22 @@
+Display: ID, Capital_Gain and create a new
+Column Bonus, which contains an amount equal
+to 10% of the Capital_Gain
+
+SELECT ID, capital_gain, capital_gain*0.1 as Bonus
+FROM  records
+Where Bonus > 200
+
+CREATE TABLE TEMP AS
+SELECT ID, capital_gain, capital_gain*0.1 as Bonus
+FROM  records
+----------------Lab1-------------------------------
+select count(*)
+from education_levels
+
+select count(id) as employee_count, country_id
+from records
+where country_id = 27
+group by country_id
+
+
+

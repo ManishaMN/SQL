@@ -1,0 +1,97 @@
+---------------------------------------------- SQLITE TEST -------------------------------------------
+
+-- Q.1 How many customers have gmail addresses?
+
+select count(*)
+from Customer
+where Email like '%@gmail%';
+
+-- 8 customers have gmail addresses
+
+-- Q.2
+select AlbumId, Title
+from Album
+where Title like 'K%'
+order by AlbumId desc;
+
+-- Q.3
+
+select GenreId, avg(UnitPrice) as Avg_Unit_Price
+from Track
+group by GenreId
+order by GenreId desc;
+
+-- Q.4
+
+select distinct City
+from Customer
+UNION
+select distinct City
+from Employee3;
+
+-- Q.5
+select count(*)
+from (select distinct City
+      from Customer
+      UNION
+      select distinct City
+      from Employee3);
+
+-- 55 cities
+
+-- Q.6
+
+select BillingCity, avg(Total) as Avg_Billing
+from Invoice
+group by BillingCity
+having avg(Total) > 6;
+
+-- Q.7
+
+select BillingCity, avg(Total) as Avg_Billing
+from Invoice
+group by BillingCity
+having avg(Total) > (select avg(Total) from Invoice);
+
+---------------------------------------------- POSTGRES TEST -------------------------------------------
+
+-- Q.8
+
+select origin_airport, count(*) as Flight_count
+from "Delays".flights
+group by origin_airport
+order by 2 desc;
+
+-- ATL airport has the most departing flights of 282
+
+-- Q.9
+
+select origin_airport, destination_airport, count(*) as Number_Of_Cancelled_Flights
+from "Delays".flights
+where cancelled = 1
+group by origin_airport, destination_airport
+order by 3 desc;
+
+-- LGA-MIA has the most cancelled flights
+
+-- Q.10
+
+select ma.code as AIRLINE_CODE, ma.airline as AIRLINE_NAME, count(*) as Number_Of_Cancelled_Flights
+from "Delays".main_airlines ma,
+     "Delays".flights f
+where ma.code = f.airline
+  and f.cancellation_reason = 'A'
+group by ma.code, ma.airline
+order by 3 desc;
+
+-- Spirit Air Lines with 4 cancellations due to Airline/Carrier
+
+-- Q.11
+
+select airline as AIRLINE, sum(cast(departure_delay as INTEGER)) as DELAY
+from "Delays".flights
+where departure_delay <> ''
+group by airline
+order by 1 asc;
+
+-- AA has a delay total of 7328

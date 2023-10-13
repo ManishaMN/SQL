@@ -1,0 +1,251 @@
+SELECT column1, column2, ...
+FROM table_name
+WHERE sql-expression
+GROUP BY column_name
+HAVING sql-expression
+ORDER BY column_name <DESC>
+
+-----
+core functions
+floor(), ceil (), log(), position(), substring()
+
+-- FLOOR: Rounds down to the nearest integer
+SELECT FLOOR(5.7); -- Result: 5
+
+-- CEIL: Rounds up to the nearest integer
+SELECT CEIL(5.1); -- Result: 6
+-- Calculate the natural logarithm (base e) of a number
+SELECT LOG(2.71828); -- Result: 1 (approximately)
+-- Find the position of a substring within a string
+SELECT POSITION('lo' IN 'hello'); -- Result: 3
+
+-- Extract a portion of a string based on starting and ending positions
+SELECT SUBSTRING('abcdef', 3, 3); -- Result: 'cde'
+
+---------------
+
+Where
+
+SQL standard: column aliases can be referenced in ORDER BY, GROUP
+BY and HAVING clauses
+
+Postgres: An output column's name can be used to refer
+to the column's value in ORDER BY and GROUP BY clauses, but not in
+the WHERE or HAVING clauses; there you must write out the
+expression instead.
+
+
+SQLite also allows column aliases in WHERE and
+JOIN ON clauses, but again, such usage is non-standard (though very
+convenient at times).
+
+
+
+-------------
+Order
+
+default sort order when using an ORDER BY clause is ascending (no
+keyword or ASC). Use the DESC keyword following the column name to
+reverse the order
+
+
+Diff in Postgre ""
+in SQL lite not required
+
+in postgre "DB name"
+SQL lite DB name not required
+
+
+
+
+In an ORDER BY clause, order-by-item is one of the following:
+• a column name from any table in the FROM clause, even if the column is not
+in the SELECT clause
+• a column alias
+• an integer representing the position of an item in the SELECT clause
+• an sql-expression
+• If more than one order-by-item is specified, then the first one
+determines the major sort order
+
+-------------------
+Summary
+
+AVG Returns the mean (average) value.
+COUNT Returns the number of nonmissing values.
+MAX Returns the largest value.
+MIN Returns the smallest nonmissing value.
+SUM Returns the sum of nonmissing values
+
+COUNT function counts the number of rows returned by a query.
+
+----------------
+ GROUP BY
+
+You can use the GROUP BY clause to do the following:
+• classify the data into groups based on the values
+of one or more columns
+• calculate statistics for each unique value of the grouping columns
+IF the query has a summary function +
+one (or more) columns in the select
+clause…
+THEN you need to specify a group by
+clause
+----------------
+
+HAVING
+
+HAVING clause subsets groups based on the expression value.
+----------
+
+Where Vs Having
+
+The WHERE clause is evaluated before a row is available for processing and
+determines which individual rows are available for grouping.
+The HAVING clause is processed after the GROUP BY clause and determines
+which groups are displayed.
+------------------------
+JOIns
+
+SQL uses joins to combine tables horizontally. Requesting a join
+involves matching data from one row in one table with a corresponding
+row in a second table. Matching is typically performed on one or more
+columns in the two tables.
+
+• Inner joins return only matching rows.
+•Outer joins return all matching rows, plus nonmatching rows from
+one or both tables.( left,full,right)
+
+--------------
+CArtesian Product(rare)
+
+A query that lists multiple tables in the FROM clause without a WHERE
+clause produces all possible combinations of rows from all tables. This
+result is called a Cartesian product
+
+Inner join
+The inner join clause links two (or more) tables by a relationship between two
+columns.
+- select from x, y where
+- select from x inner join y on...
+
+Table alias
+A table alias is a temporary, alternative name for a table. You can
+make the query easier to read by using table aliases. 
+
+Outer joins: you can retrieve both non-matching and matching rows
+using an outer join. Many tables can be referenced in outer joins. The
+tables are processed two tables at a time
+
+select from x left join y on 
+
+Inner joins return only matching rows
+
+Left joins return all matching and non-matching rows from the
+left table and the matching rows from the right table.
+• Right joins return all matching and non-matching rows from the
+right table and the matching rows from the left table.
+• Full joins return all matching and non-matching rows from all of
+the tables.
+
+*****
+--todate, floor
+- (floor((TO_DATE('01SEP2023', 'DDMONYYYY') - TO_DATE("Start_Date", 'DDMONYYYY'))/365.25) as YOS)
+
+Extract year
+extract(YEAR from TO_DATE("Order_Date", 'DDMONYYYY')) >= 2010
+
+-------------------------
+
+COlUMN ALIAS
+
+SQL standard: column aliases can be referenced in ORDER BY, GROUP 
+BY and HAVING clauses. 
+• However, in Postgres: An output column's name can be used to refer 
+to the column's value in ORDER BY and GROUP BY clauses, but not in 
+the WHERE or HAVING clauses; there you must write out the 
+expression instead
+
+
+SUB Query
+
+A subquery:
+• is a query within another SQL query
+• returns values to be used:
+• SQLite: You can use a subquery in the SELECT, WHERE, or JOIN clause.
+• Postgres: You can use a subquery in the SELECT or WHERE clause
+• must return only a single column
+• can return multiple values or a single value
+
+Two Types of Subqueries
+There are two types of subqueries:
+• A noncorrelated subquery is a self-contained query. It executes 
+independently of the outer query.
+• A correlated subquery requires a value or values to be passed to it by 
+the outer (main) query before it can be successfully resolved.
+
+
+A subquery can return multiple values or a single value. 
+However, subqueries that return more than one row can only be used with 
+multiple value operators, such as the IN operator
+
+The NOT IN operator displays a record if the condition(s) is NOT TRUE
+
+INLINE
+
+An in-line view is a query expression (SELECT statement) that resides in 
+a FROM clause:
+• It acts as a virtual table, used in place of a physical table in a query.
+• An in-line view can return more than just one colum
+
+
+***CAsting-  AVG(CAST(REPLACE(REPLACE("Total_Retail_Price",'$',''),',','')AS DOUBLE PRECISION)) as Mean
+***Order by
+***Having 
+
+
+----------------------------
+
+SET operators
+
+Set operators use the intermediate result sets from two queries to 
+create a final result set.
+
+The UNION clause removes duplicate rows that exist, while the UNION ALL (or OUTER JOIN) clause does not
+
+INTERSECT
+UNION
+EXCEPT ( ORACLE - MINUS)
+UNION ALL
+
+-------------------------------
+
+UNION All distinct rows selected by either query
+UNION ALL All rows selected by either query, including all 
+duplicates
+INTERSECT All distinct rows selected by both queries
+EXCEPT All distinct rows selected by the first query but 
+not the second
+
+------------------
+
+Operator Returns
+UNION All distinct rows selected by either query
+UNION ALL All rows selected by either query, including all 
+duplicates
+INTERSECT All distinct rows selected by both queries
+EXCEPT All distinct rows selected by the first query but 
+not the second
+
+--------------------------
+
+Adding constant text
+
+select 'The Average Company Salary is:',
+avg(salary) as CompAvg
+from jupiter.staff;
+
+---------------
+
+Converting data type with null values
+
+AVG(CAST(NULLIF(departure_delay, '') AS INTEGER))
